@@ -1,9 +1,7 @@
 package com.fatec.scel;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -13,25 +11,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fatec.scel.model.Livro;
 import com.fatec.scel.model.LivroRepository;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class REQ01CadastrarLivro {
-
+public class REQ02ConsultarLivro {
 	@Autowired
-	LivroRepository repository;
-    /**
-     * Verificar o comportamento da classe LivroRepository
-     */
+	LivroRepository repository ;
+	static Livro livro;  
 	@Test
-	public void CT01CadastrarLivroComSucesso() {
-		// dado que o isbn nao esta cadastrado
+	public void test() {
+		// dado que nao existem livros cadastrados
 		repository.deleteAll();
 		// quando o usurio inclui as informacoes obrigatorias e confirma a operacao
-		Livro livro = new Livro("3333", "Teste de Software", "Delamaro");
+		livro = new Livro("3333", "Teste de Software", "Delamaro");
 		repository.save(livro);
-		// o sistema valida as informações E envia uma mensagem de livro cadastrado com sucesso
-		assertEquals(1, repository.count());
+		// o sistema valida as informações E envia uma mensagem de aluno cadastrado com sucesso
+		
+		Livro ro = repository.findByIsbn("3333");
+		assertEquals("Delamaro", ro.getAutor());
 	}
-	
 }
