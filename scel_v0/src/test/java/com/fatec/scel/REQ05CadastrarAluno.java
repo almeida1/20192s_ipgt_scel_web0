@@ -18,7 +18,7 @@ class REQ05CadastrarAluno {
 		// quando o usurio inclui as informacoes obrigatorias e confirma a operacao
 		Aluno aluno = new Aluno();
 		repository.save(aluno);
-		// o sistema valida as informações E envia uma mensagem de livro cadastrado com sucesso
+		// entao o sistema valida as informações E envia uma mensagem de livro cadastrado com sucesso
 		assertEquals(1, repository.count());
 	}
 

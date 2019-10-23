@@ -2,8 +2,13 @@ package com.fatec.scel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import org.junit.AfterClass;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +25,18 @@ public class REQ01CadastrarLivro {
 
 	@Autowired
 	LivroRepository repository;
-    /**
-     * Verificar o comportamento da classe LivroRepository
-     */
+
+	private static Validator validator;
+	private static ValidatorFactory validatorFactory;
+
+	@AfterClass
+	public static void close() {
+		validatorFactory.close();
+	}
+
+	/**
+	 * Verificar o comportamento da classe LivroRepository
+	 */
 	@Test
 	public void CT01CadastrarLivroComSucesso() {
 		// dado que o isbn nao esta cadastrado
@@ -30,8 +44,37 @@ public class REQ01CadastrarLivro {
 		// quando o usurio inclui as informacoes obrigatorias e confirma a operacao
 		Livro livro = new Livro("3333", "Teste de Software", "Delamaro");
 		repository.save(livro);
-		// o sistema valida as informações E envia uma mensagem de livro cadastrado com sucesso
+		// entao
 		assertEquals(1, repository.count());
 	}
-	
+
+	@Test
+	public void CT02CadastrarLivroComSucesso() {
+		validatorFactory = Validation.buildDefaultValidatorFactory();
+		validator = validatorFactory.getValidator();
+		// given:
+		Livro livro = new Livro("3333", "Teste de Software", "Delamaro");
+
+		// when:
+		Set<ConstraintViolation<Livro>> violations = validator.validate(livro);
+
+		// then:
+		assertTrue(violations.isEmpty());
+	}
+
+	// hibernate validator
+	// https://hibernate.org/validator/documentation/getting-started/
+	@Test
+	public void CT03DeveDetectarTituloInvalido() {
+		// dado que o titulo do livro esta invalido
+		Livro livro = new Livro("3333", "", "Delamaro");
+
+		// when:
+		Set<ConstraintViolation<Livro>> violations = validator.validate(livro);
+
+		// then:
+		assertEquals(violations.size(), 1);
+		assertEquals("O titulo deve ser preenchido", violations.iterator().next().getMessage());
+
+	}
 }

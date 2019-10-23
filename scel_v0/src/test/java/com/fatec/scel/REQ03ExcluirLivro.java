@@ -1,6 +1,7 @@
 package com.fatec.scel;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -12,19 +13,25 @@ import com.fatec.scel.model.Livro;
 import com.fatec.scel.model.LivroRepository;
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class REQ02ConsultarLivro {
+class REQ03ExcluirLivro {
+
 	@Autowired
-	LivroRepository repository ;
-	static Livro livro;  
+	LivroRepository repository;
+    /**
+     * Verificar o comportamento da classe LivroRepository
+     */
 	@Test
-	public void test() {
-		// dado que nao existem livros cadastrados
+	public void CT01ExcluirLivroComSucesso() {
+		// dado que o isbn nao esta cadastrado
 		repository.deleteAll();
 		// quando o usurio inclui as informacoes obrigatorias e confirma a operacao
-		livro = new Livro("3333", "Teste de Software", "Delamaro");
+		Livro livro = new Livro("3333", "Teste de Software", "Delamaro");
 		repository.save(livro);
-		// entao o sistema valida as informações E envia uma mensagem de aluno cadastrado com sucesso
 		Livro ro = repository.findByIsbn("3333");
-		assertThat(ro).isEqualTo(livro);
+		repository.deleteById(ro.getId());
+		// entao o sistema valida as informações E envia uma mensagem de livro cadastrado com sucesso
+		assertThat(repository.findByIsbn("3333")).isEqualTo(null);
 	}
+	
+
 }
