@@ -8,12 +8,12 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.AfterClass;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fatec.scel.model.Livro;
@@ -26,30 +26,11 @@ public class REQ01CadastrarLivro {
 	@Autowired
 	LivroRepository repository;
 
-	private static Validator validator;
-	private static ValidatorFactory validatorFactory;
-
-	@AfterClass
-	public static void close() {
-		validatorFactory.close();
-	}
-
-	/**
-	 * Verificar o comportamento da classe LivroRepository
-	 */
+	private Validator validator;
+	private ValidatorFactory validatorFactory;
+	
 	@Test
-	public void CT01CadastrarLivroComSucesso() {
-		// dado que o isbn nao esta cadastrado
-		repository.deleteAll();
-		// quando o usurio inclui as informacoes obrigatorias e confirma a operacao
-		Livro livro = new Livro("3333", "Teste de Software", "Delamaro");
-		repository.save(livro);
-		// entao
-		assertEquals(1, repository.count());
-	}
-
-	@Test
-	public void CT02CadastrarLivroComSucesso() {
+	public void CT01CadastrarLivroComSucesso_dados_validos() {
 		validatorFactory = Validation.buildDefaultValidatorFactory();
 		validator = validatorFactory.getValidator();
 		// given:
@@ -61,11 +42,27 @@ public class REQ01CadastrarLivro {
 		// then:
 		assertTrue(violations.isEmpty());
 	}
+	/**
+	 * Verificar o comportamento da classe LivroRepository
+	 */
+	@Test
+	public void CT02CadastrarLivroComSucesso() {
+		// dado que o isbn nao esta cadastrado
+		repository.deleteAll();
+		// quando o usurio inclui as informacoes obrigatorias e confirma a operacao
+		Livro livro = new Livro("3333", "Teste de Software", "Delamaro");
+		repository.save(livro);
+		// entao
+		assertEquals(1, repository.count());
+	}
 
-	// hibernate validator
-	// https://hibernate.org/validator/documentation/getting-started/
+	
+
+	
 	@Test
 	public void CT03DeveDetectarTituloInvalido() {
+		validatorFactory = Validation.buildDefaultValidatorFactory();
+		validator = validatorFactory.getValidator();
 		// dado que o titulo do livro esta invalido
 		Livro livro = new Livro("3333", "", "Delamaro");
 
