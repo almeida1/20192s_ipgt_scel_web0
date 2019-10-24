@@ -1,5 +1,6 @@
 package com.fatec.scel;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Set;
@@ -40,7 +41,8 @@ public class REQ01CadastrarLivro {
 		Set<ConstraintViolation<Livro>> violations = validator.validate(livro);
 
 		// then:
-		assertTrue(violations.isEmpty());
+		assertThat(violations.isEmpty()).isEqualTo(true);
+		
 	}
 	/**
 	 * Verificar o comportamento da classe LivroRepository
@@ -53,7 +55,8 @@ public class REQ01CadastrarLivro {
 		Livro livro = new Livro("3333", "Teste de Software", "Delamaro");
 		repository.save(livro);
 		// entao
-		assertEquals(1, repository.count());
+		assertThat(repository.count()).isEqualTo(1);
+		
 	}
 
 	
