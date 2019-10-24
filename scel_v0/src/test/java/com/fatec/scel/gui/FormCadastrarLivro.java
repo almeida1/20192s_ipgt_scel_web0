@@ -16,24 +16,19 @@ public class FormCadastrarLivro {
 	}
 	
 	public void abre(){
-		driver.get(baseUrl + "ControleDeEmprestimo/FormLivro.jsp");
+		driver.get(baseUrl + "livros/cadastrar");
 	}
-	public void cadastra(String i, String t, String a, String re){
+	public void cadastra(String isbn, String autor, String titulo, String re){
 		try{
-			driver.get("http://localhost:8090/livros/cadastrar");
+			abre();
 		    
 		    driver.findElement(By.id("isbn")).click();
-		    driver.findElement(By.id("isbn")).sendKeys("1112");
-		    driver.findElement(By.id("autor")).sendKeys("Delamaro");
-		    driver.findElement(By.id("titulo")).sendKeys("Teste de Software");
+		    driver.findElement(By.id("isbn")).sendKeys(isbn);
+		    driver.findElement(By.id("autor")).sendKeys(autor);
+		    driver.findElement(By.id("titulo")).sendKeys(titulo);
 		    driver.findElement(By.cssSelector(".btn-primary:nth-child(1)")).click();
 		//    assertThat(driver.findElement(By.cssSelector("strong")).getText(), is("Livro cadastrado com sucesso"));
-		driver.findElement(By.name("txtISBN")).clear();
-		driver.findElement(By.id("txtisbn")).sendKeys(i);
-		driver.findElement(By.id("txttitulo")).clear();
-		driver.findElement(By.id("txttitulo")).sendKeys(t);
-		driver.findElement(By.id("txtautor")).clear();
-		driver.findElement(By.id("txtautor")).sendKeys(a);
+		
 		
 		driver.findElement(By.name("btnIncluir")).click();
 		}catch(Exception e){
@@ -44,15 +39,15 @@ public class FormCadastrarLivro {
 	public void excluir(String isbn){
 		//WebDriverWait wait = new WebDriverWait(driver, 20);
 		driver.get(baseUrl + "ControleDeEmprestimo/FormLivro.jsp");
-		driver.findElement(By.id("txtisbn")).clear();
-		driver.findElement(By.id("txtisbn")).sendKeys(isbn);
+		driver.findElement(By.id("isbn")).clear();
+		driver.findElement(By.id("isbn")).sendKeys(isbn);
 		driver.findElement(By.name("btnExcluir")).click();
 	}
 	public void consultar(String isbn){
 		//WebDriverWait wait = new WebDriverWait(driver, 20);
 		
-		driver.findElement(By.id("txtisbn")).clear();
-		driver.findElement(By.id("txtisbn")).sendKeys(isbn);
+		driver.findElement(By.id("isbn")).clear();
+		driver.findElement(By.id("isbn")).sendKeys(isbn);
 		driver.findElement(By.name("btnConsultar")).click();
 	}
 }

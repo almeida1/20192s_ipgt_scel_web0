@@ -36,13 +36,10 @@ public class REQ01CadastrarLivro {
 		validator = validatorFactory.getValidator();
 		// given:
 		Livro livro = new Livro("3333", "Teste de Software", "Delamaro");
-
 		// when:
 		Set<ConstraintViolation<Livro>> violations = validator.validate(livro);
-
 		// then:
 		assertThat(violations.isEmpty()).isEqualTo(true);
-		
 	}
 	/**
 	 * Verificar o comportamento da classe LivroRepository
@@ -56,11 +53,7 @@ public class REQ01CadastrarLivro {
 		repository.save(livro);
 		// entao
 		assertThat(repository.count()).isEqualTo(1);
-		
 	}
-
-	
-
 	
 	@Test
 	public void CT03DeveDetectarTituloInvalido() {
@@ -68,14 +61,10 @@ public class REQ01CadastrarLivro {
 		validator = validatorFactory.getValidator();
 		// dado que o titulo do livro esta invalido
 		Livro livro = new Livro("3333", "", "Delamaro");
-
 		// when:
 		Set<ConstraintViolation<Livro>> violations = validator.validate(livro);
-
 		// then:
 		assertEquals(violations.size(), 1);
 		assertEquals("O titulo deve ser preenchido", violations.iterator().next().getMessage());
-
 	}
-	
 }
