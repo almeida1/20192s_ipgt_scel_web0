@@ -77,4 +77,5 @@ public class REQ01CadastrarLivro {
 		assertEquals("O titulo deve ser preenchido", violations.iterator().next().getMessage());
 
 	}
+	
 }

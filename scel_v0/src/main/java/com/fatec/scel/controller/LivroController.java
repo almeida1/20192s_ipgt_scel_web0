@@ -19,6 +19,14 @@ public class LivroController {
 	@Autowired
 	private LivroRepository repository;
 	
+	@GetMapping("/cadastrar")
+	public ModelAndView cadastraLivro(Livro livro) {
+
+		ModelAndView mv = new ModelAndView("CadastrarLivro");
+		mv.addObject("livro", livro);
+
+		return mv;
+	}
 	@GetMapping("/consulta")
 	public ModelAndView listar() {
 		ModelAndView modelAndView = new ModelAndView("ConsultarLivros");
